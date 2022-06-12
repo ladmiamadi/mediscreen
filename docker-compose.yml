@@ -1,0 +1,15 @@
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    environment:
+      MYSQL_DATABASE: patient
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_ALLOW_EMPTY_PASSWORD: true
+    ports:
+      - "6033:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+volumes:
+  dbdata:

@@ -40,6 +40,10 @@ public class PatientService {
         return patientRepository.findById(id);
     }
 
+    public Optional<Patient> findPatientByFamilyName(String familyName) {
+        return patientRepository.findByLastName(familyName);
+    }
+
     public Patient updatePatient(Patient patient) {
         return patientRepository.save(patient);
     }

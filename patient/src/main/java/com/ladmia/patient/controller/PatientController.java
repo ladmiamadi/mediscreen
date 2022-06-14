@@ -36,9 +36,14 @@ public class PatientController {
         return patientService.registerPatient(given, family, dob, sex, address, phone);
     }
 
-    @GetMapping("/{id}")
-    public Patient getPatient(@PathVariable Integer id) {
+    @GetMapping("/getById")
+    public Patient getPatientById(@RequestParam("id") Integer id) {
         return patientService.findPatientById(id).orElseThrow(() -> new NotFoundPatientException("Id "+ id + " not found in database"));
+    }
+
+    @GetMapping("/getByFamilyName")
+    public Patient getPatientByFamilyName(@RequestParam String familyName) {
+        return patientService.findPatientByFamilyName(familyName).orElseThrow(() -> new NotFoundPatientException("Family Name"+ familyName + " not found in database"));
     }
 
     @PutMapping("/patient/update")

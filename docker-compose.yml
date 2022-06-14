@@ -11,5 +11,16 @@ services:
       - "6033:3306"
     volumes:
       - dbdata:/var/lib/mysql
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_DATABASE: history
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-volume:/data/db
 volumes:
   dbdata:
+  mongo-volume:

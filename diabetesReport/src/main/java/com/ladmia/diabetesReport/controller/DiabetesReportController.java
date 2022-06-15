@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/assess")
@@ -17,17 +18,21 @@ public class DiabetesReportController {
     DiabetesReportService diabetesReportService;
 
     @RequestMapping("/id")
-    public PatientBean getPatientReport(@RequestParam(value="patId") Integer patId) {
-        return diabetesReportService.getPatientInformationById(patId);
+    public String  getPatientReportById(@RequestParam(value="patId") Integer patId) {
+        PatientBean patientBean = diabetesReportService.getPatientInformationById(patId);
+
+        return diabetesReportService.generateDiabetesReport(patientBean);
     }
 
     @RequestMapping("/familyName")
-    public PatientBean getPatientReport2(@RequestParam(value="familyName") String familyName) {
-        return diabetesReportService.getPatientInformationByFamilyName(familyName);
+    public String getPatientReportByFamilyName(@RequestParam(value="familyName") String familyName) {
+        PatientBean patientBean = diabetesReportService.getPatientInformationByFamilyName(familyName);
+
+        return diabetesReportService.generateDiabetesReport(patientBean);
     }
 
-    @RequestMapping("/history")
-    public List patientHistory(@RequestParam("patId") Integer patId) {
-        return diabetesReportService.getPatientNotes(patId);
+    @RequestMapping("/patients")
+    public List<Map<String, String>> getPatientsWithNotes() {
+        return diabetesReportService.getPatientsWithNotes();
     }
 }

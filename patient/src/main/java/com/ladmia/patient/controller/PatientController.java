@@ -46,7 +46,7 @@ public class PatientController {
         return patientService.findPatientByFamilyName(familyName).orElseThrow(() -> new NotFoundPatientException("Family Name"+ familyName + " not found in database"));
     }
 
-    @PutMapping("/patient/update")
+    @PutMapping("/update")
     public Patient patientUpdate(@RequestParam(value="Id") Integer id,
                                  @RequestParam(value="given") String given,
                                  @RequestParam(value="family") String family,

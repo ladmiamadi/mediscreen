@@ -21,6 +21,12 @@ services:
       - "27017:27017"
     volumes:
       - mongo-volume:/data/db
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+
 volumes:
   dbdata:
   mongo-volume:

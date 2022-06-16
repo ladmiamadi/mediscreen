@@ -1,0 +1,14 @@
+html, * {
+    box-sizing: border-box;
+}
+.top-menu {
+    height: 100px;
+}
+
+.menu {
+    background-color:#00849a ;
+}
+
+a {
+     color: #ffff;
+ }

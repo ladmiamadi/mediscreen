@@ -48,12 +48,9 @@ public class PatientService {
         return patientRepository.save(patient);
     }
 
-    public ResponseEntity<Object> deletePatient(Integer id) {
+    public void deletePatient(Integer id) {
         if(patientRepository.findById(id).isPresent()) {
             patientRepository.deleteById(id);
-            return new ResponseEntity<>(id, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }

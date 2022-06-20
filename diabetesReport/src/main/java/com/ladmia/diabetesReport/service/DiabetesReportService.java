@@ -69,4 +69,26 @@ public class DiabetesReportService {
                 + " diabetes assessment is: "
                 + diabetesReportUtil.getRiskLevel(patient, getPatientNotes(patient.getId()));
     }
+
+    public HistoryBean createNewNote(HistoryBean historyBean) {
+        return historyProxy.addNewNote(historyBean.getPatientId(), historyBean.getNote());
+    }
+
+    public PatientBean createNewPatient(PatientBean patientBean) {
+        return patientProxy.addPatient(patientBean.getFirstName(), patientBean.getLastName(),
+                                        patientBean.getBirthDate(), patientBean.getSex(), patientBean.getAddress(),
+                                        patientBean.getPhoneNumber());
+    }
+
+    public void deletePatient(Integer id) {
+        patientProxy.deletePatient(id);
+    }
+
+    public PatientBean updatePatient(PatientBean patientBean){
+        patientProxy.patientUpdate(patientBean.getId(), patientBean.getFirstName(), patientBean.getLastName(),
+                                    patientBean.getBirthDate(), patientBean.getSex(), patientBean.getAddress(),
+                                    patientBean.getPhoneNumber());
+
+        return patientBean;
+    }
 }

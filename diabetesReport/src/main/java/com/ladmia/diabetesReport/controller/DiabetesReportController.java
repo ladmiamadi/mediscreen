@@ -1,19 +1,18 @@
 package com.ladmia.diabetesReport.controller;
 
+import com.ladmia.diabetesReport.bean.HistoryBean;
 import com.ladmia.diabetesReport.bean.PatientBean;
 import com.ladmia.diabetesReport.service.DiabetesReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
-@Controller
-@RequestMapping("/assess")
+@RestController
+@RequestMapping(value = "/assess", method = {RequestMethod.GET, RequestMethod.POST,
+        RequestMethod.PUT, RequestMethod.DELETE})
 public class DiabetesReportController {
 
     @Autowired
@@ -33,13 +32,44 @@ public class DiabetesReportController {
         return diabetesReportService.generateDiabetesReport(patientBean);
     }
 
-    @RequestMapping("/patients")
+    @RequestMapping("/patNote")
     public List<Map<String, String>> getPatientsWithNotes() {
         return diabetesReportService.getPatientsWithNotes();
     }
 
-    @RequestMapping("/")
-    public String home(Model model) {
-        return "home";
+    @RequestMapping("/patients")
+    public List<PatientBean> getPatients() {
+        return diabetesReportService.getPatientsList();
+    }
+
+    @RequestMapping("patient/{id}")
+    public PatientBean getPatientDetail(@PathVariable("id") Integer id) {
+        return diabetesReportService.getPatientInformationById(id);
+    }
+
+    @RequestMapping("note/{id}")
+    public List<HistoryBean> getPatientNote(@PathVariable("id") Integer id) {
+        return diabetesReportService.getPatientNotes(id);
+    }
+
+    public HistoryBean createNote(HistoryBean historyBean) {
+        return diabetesReportService.createNewNote(historyBean);
+    }
+
+    public PatientBean createPatient(PatientBean patientBean) {
+        return diabetesReportService.createNewPatient(patientBean);
+    }
+
+    public void deletePatient(@PathVariable("id") Integer id) {
+        diabetesReportService.deletePatient(id);
+    }
+
+    public PatientBean updatePatient(PatientBean patientBean) {
+        System.out.println("yes");
+        return diabetesReportService.updatePatient(patientBean);
+    }
+
+    public List<Map<String, String>> getPatientsNotes() {
+        return diabetesReportService.getPatientsWithNotes();
     }
 }

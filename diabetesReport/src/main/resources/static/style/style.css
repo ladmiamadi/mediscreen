@@ -8,3 +8,27 @@ html, * {
 .menu {
     background-color:#00849a ;
 }
+
+.nav-link {
+    text-decoration: none;
+    color: #fff;
+    font-size: 20px;
+    margin-right: 30px;
+    font-weight: bold;
+}
+
+.nav-link:hover {
+    color: rgba(218, 0, 0, 0.82) !important;
+}
+
+.image-home img {
+    width: 800px;
+}
+
+.presentation h1, h4 {
+    color: #00849a;
+}
+
+#footer {
+    color: #fff !important;
+}

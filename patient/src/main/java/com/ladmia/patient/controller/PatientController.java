@@ -5,15 +5,13 @@ import com.ladmia.patient.model.Patient;
 import com.ladmia.patient.service.PatientService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 
 @RestController
 @Slf4j
-@RequestMapping("/patient")
+@RequestMapping(value="/patient", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class PatientController {
     @Autowired
     PatientService patientService;
@@ -47,8 +45,8 @@ public class PatientController {
         return patientService.findPatientByFamilyName(familyName).orElseThrow(() -> new NotFoundPatientException("Family Name"+ familyName + " not found in database"));
     }
 
-    @PutMapping("/update")
-    public Patient patientUpdate(@RequestParam(value="Id") Integer id,
+    @RequestMapping(value="/update", method=RequestMethod.PUT)
+    public Patient patientUpdate(@RequestParam(value="id") Integer id,
                                  @RequestParam(value="given") String given,
                                  @RequestParam(value="family") String family,
                                  @RequestParam(value="dob") Date dob,
@@ -60,10 +58,10 @@ public class PatientController {
         return patient;
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletePatient(@PathVariable Integer id) {
+    @RequestMapping(value = "/delete/{id}",method=RequestMethod.DELETE)
+    public void deletePatient(@PathVariable("id") Integer id) {
         log.info("Deleting Patient with id=" + id + " from database");
 
-        return patientService.deletePatient(id);
+        patientService.deletePatient(id);
     }
 }

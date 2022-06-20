@@ -2,9 +2,10 @@ package com.ladmia.diabetesReport.proxy;
 
 import com.ladmia.diabetesReport.bean.PatientBean;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @FeignClient(name = "patient", url = "localhost:8081")
@@ -17,4 +18,25 @@ public interface PatientProxy {
 
     @GetMapping(value = "/patient/")
     List<PatientBean> getPatientsList();
+
+    @PostMapping(value = "/patient/add")
+    PatientBean addPatient(@RequestParam(value="family") String family,
+                           @RequestParam(value="given") String given,
+                           @RequestParam(value="dob") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dob,
+                           @RequestParam(value="sex") String sex,
+                           @RequestParam(value="address") String address,
+                           @RequestParam(value="phone") String phone);
+
+    @RequestMapping(value = "/patient/delete/{id}",method=RequestMethod.DELETE)
+    void deletePatient(@PathVariable("id") Integer id);
+
+    @RequestMapping(value="/patient/update", method=RequestMethod.PUT)
+    PatientBean patientUpdate(@RequestParam(value="id") Integer id,
+                                 @RequestParam(value="given") String given,
+                                 @RequestParam(value="family") String family,
+                                 @RequestParam(value="dob") Date dob,
+                                 @RequestParam(value="sex") String sex,
+                                 @RequestParam(value="address") String address,
+                                 @RequestParam(value="phone") String phone);
+
 }

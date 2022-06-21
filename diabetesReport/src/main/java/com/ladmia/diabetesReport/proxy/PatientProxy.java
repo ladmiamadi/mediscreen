@@ -16,7 +16,7 @@ public interface PatientProxy {
     @GetMapping( value = "/patient/getByFamilyName")
     PatientBean patientInfoByFamilyName(@RequestParam("familyName") String familyName);
 
-    @GetMapping(value = "/patient/")
+    @GetMapping(value = "/patient/list")
     List<PatientBean> getPatientsList();
 
     @PostMapping(value = "/patient/add")

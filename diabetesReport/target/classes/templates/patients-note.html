@@ -50,7 +50,7 @@
         <h2 class="text-danger">Patient notes</h2>
     </div>
 
-    <table class="table striped mb-5">
+    <table class="table striped mb-5 w-75 mx-auto">
         <thead>
         <tr>
             <th scope="col">Last Name</th>
@@ -58,11 +58,12 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="patientNote: ${patientsNotes}">
-            <td><span th:text="${patientNote}"></span></td>
-
-            <td><span th:text="${patientNote}"></span></td>
-        </tr>
+        <th:block th:each="map : ${patientsNotes}">
+            <tr th:each="e : ${map}">
+                <td th:text="${e.key}"></td>
+                <td th:text="${e.value}"></td>
+            </tr>
+        </th:block>
         </tbody>
     </table>
 </div>

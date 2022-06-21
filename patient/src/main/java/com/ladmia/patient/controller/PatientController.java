@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@RequestMapping(value="/patient", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+@RequestMapping(value="/patient")
 public class PatientController {
     @Autowired
     PatientService patientService;

@@ -11,18 +11,17 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@RequestMapping(value="/patient")
 public class PatientController {
     @Autowired
     PatientService patientService;
 
-    @GetMapping("/list")
+    @GetMapping("/patient/list")
     public List<Patient> getPatients() {
         log.info("Getting patients list");
         return patientService.getAllPatients();
     }
 
-    @PostMapping("/add")
+    @PostMapping("/patient/add")
     public Patient registerPatient(@RequestParam(value="family", defaultValue="Family") String family,
                                    @RequestParam(value="given", defaultValue="Given") String given,
                                    @RequestParam(value="dob", defaultValue="1941-01-01") Date dob,
@@ -35,17 +34,17 @@ public class PatientController {
         return patientService.registerPatient(given, family, dob, sex, address, phone);
     }
 
-    @GetMapping("/getById")
+    @GetMapping("/patient/getById")
     public Patient getPatientById(@RequestParam("id") Integer id) {
         return patientService.findPatientById(id).orElseThrow(() -> new NotFoundPatientException("Id "+ id + " not found in database"));
     }
 
-    @GetMapping("/getByFamilyName")
+    @GetMapping("/patient/getByFamilyName")
     public Patient getPatientByFamilyName(@RequestParam String familyName) {
         return patientService.findPatientByFamilyName(familyName).orElseThrow(() -> new NotFoundPatientException("Family Name"+ familyName + " not found in database"));
     }
 
-    @RequestMapping(value="/update", method=RequestMethod.PUT)
+    @PutMapping(value="/patient/update")
     public Patient patientUpdate(@RequestParam(value="id") Integer id,
                                  @RequestParam(value="given") String given,
                                  @RequestParam(value="family") String family,
@@ -58,7 +57,7 @@ public class PatientController {
         return patient;
     }
 
-    @RequestMapping(value = "/delete/{id}",method=RequestMethod.DELETE)
+    @DeleteMapping(value = "/patient/delete/{id}")
     public void deletePatient(@PathVariable("id") Integer id) {
         log.info("Deleting Patient with id=" + id + " from database");
 

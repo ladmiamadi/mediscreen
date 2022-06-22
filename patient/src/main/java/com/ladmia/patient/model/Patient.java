@@ -25,7 +25,6 @@ public class Patient {
     @NotEmpty(message = "Last Name cant be empty")
     private String lastName;
 
-    @NotEmpty(message = "Date Of Birth cant be empty")
     private Date birthDate;
 
     private String sex;

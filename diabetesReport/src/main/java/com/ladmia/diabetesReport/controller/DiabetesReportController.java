@@ -11,8 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/assess", method = {RequestMethod.GET, RequestMethod.POST,
-        RequestMethod.PUT, RequestMethod.DELETE})
+@RequestMapping(value = "/assess")
 public class DiabetesReportController {
 
     @Autowired
@@ -52,24 +51,4 @@ public class DiabetesReportController {
         return diabetesReportService.getPatientNotes(id);
     }
 
-    public HistoryBean createNote(HistoryBean historyBean) {
-        return diabetesReportService.createNewNote(historyBean);
-    }
-
-    public PatientBean createPatient(PatientBean patientBean) {
-        return diabetesReportService.createNewPatient(patientBean);
-    }
-
-    public void deletePatient(@PathVariable("id") Integer id) {
-        diabetesReportService.deletePatient(id);
-    }
-
-    public PatientBean updatePatient(PatientBean patientBean) {
-        System.out.println("yes");
-        return diabetesReportService.updatePatient(patientBean);
-    }
-
-    public List<Map<String, String>> getPatientsNotes() {
-        return diabetesReportService.getPatientsWithNotes();
-    }
 }

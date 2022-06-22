@@ -27,14 +27,14 @@ public interface PatientProxy {
                            @RequestParam(value="address") String address,
                            @RequestParam(value="phone") String phone);
 
-    @RequestMapping(value = "/patient/delete/{id}",method=RequestMethod.DELETE)
+    @DeleteMapping(value = "/patient/delete/{id}")
     void deletePatient(@PathVariable("id") Integer id);
 
-    @RequestMapping(value="/patient/update", method=RequestMethod.PUT)
+    @PutMapping(value="/patient/update")
     PatientBean patientUpdate(@RequestParam(value="id") Integer id,
                                  @RequestParam(value="given") String given,
                                  @RequestParam(value="family") String family,
-                                 @RequestParam(value="dob") Date dob,
+                                 @RequestParam(value="dob")  @DateTimeFormat(pattern = "yyyy-MM-dd") Date dob,
                                  @RequestParam(value="sex") String sex,
                                  @RequestParam(value="address") String address,
                                  @RequestParam(value="phone") String phone);

@@ -50,7 +50,7 @@
     <div class="text-center p-5 my-3">
         <h2 class="text-danger">Add a new patient</h2>
     </div>
-    <form th:action="@{/newPatient}" method="post" th:object="${patientBean}">
+    <form th:action="@{/patient/add}" method="post" th:object="${patientBean}">
         <div class="w-50 mx-auto">
             <div class="my-1 row fw-bold">
                 <label for="firstName" class="form-label">First Name</label>
@@ -63,10 +63,10 @@
                 <div class="text-danger p-1" th:if="${#fields.hasErrors('lastName')}" th:text="${error}" th:errors="*{lastName}"></div>
             </div>
             <div class="my-1 row fw-bold">
-                <label for="lastName" class="form-label">Sex</label>
-                <select class="form-select">
-                    <option value="F">F</option>
-                    <option value="M">M</option>
+                <label for="sex" class="form-label">Sex</label>
+                <select id="sex" class="form-select" th:field="*{sex}">
+                    <option th:value="F" th:text="F"></option>
+                    <option th:value="M" th:text="M"></option>
                 </select>
             </div>
             <div class="my-2 row fw-bold">

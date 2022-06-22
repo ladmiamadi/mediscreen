@@ -3,6 +3,7 @@ package com.ladmia.diabetesReport.web;
 import com.ladmia.diabetesReport.bean.HistoryBean;
 import com.ladmia.diabetesReport.bean.PatientBean;
 import com.ladmia.diabetesReport.controller.DiabetesReportController;
+import com.ladmia.diabetesReport.service.DiabetesReportService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,12 +22,15 @@ public class DiabetesReportWeb {
     @Autowired
     DiabetesReportController diabetesReportController;
 
-    @RequestMapping("/")
+    @Autowired
+    DiabetesReportService diabetesReportService;
+
+    @GetMapping("/")
     public String home() {
         return "home";
     }
 
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public String patientList(Model model) {
         List<PatientBean> patients = diabetesReportController.getPatients();
 
@@ -35,7 +39,7 @@ public class DiabetesReportWeb {
         return "patients";
     }
 
-    @RequestMapping("patient/{id}")
+    @GetMapping("patient/{id}")
     public String getPatientDetails(@PathVariable("id") Integer id, Model model) {
 
         model.addAttribute("patient", diabetesReportController.getPatientDetail(id));
@@ -66,19 +70,19 @@ public class DiabetesReportWeb {
 
         historyBean.setPatientId(id);
 
-        diabetesReportController.createNote(historyBean);
+        diabetesReportService.createNewNote(historyBean);
 
         return "redirect:/patient/" + id;
     }
 
-    @GetMapping("/newPatient")
+    @GetMapping("/patient/add")
     public String newPatientForm(Model model, PatientBean patientBean) {
         model.addAttribute("patientBean", patientBean);
 
         return "patient";
     }
 
-    @PostMapping("/newPatient")
+    @PostMapping("/patient/add")
     public String addNewPatient(@Valid PatientBean patientBean,
                              BindingResult bindingResult,
                              RedirectAttributes redirectAttributes, Model model) {
@@ -88,14 +92,17 @@ public class DiabetesReportWeb {
             return "patient";
         }
 
-        diabetesReportController.createPatient(patientBean);
+        diabetesReportService.createNewPatient(patientBean);
 
         return "redirect:/list";
     }
 
-    @RequestMapping(value = "/patient/delete/{id}",method=RequestMethod.DELETE)
-    public void deletePatient(@PathVariable("id") Integer id) {
-        diabetesReportController.deletePatient(id);
+    @RequestMapping(value = "/patient/delete/{id}", method = { RequestMethod.GET, RequestMethod.DELETE })
+    public String deletePatient(@PathVariable("id") Integer id) {
+
+        diabetesReportService.deletePatient(id);
+
+        return "redirect:/list";
     }
 
     @GetMapping("/patient/update/{id}")
@@ -106,7 +113,7 @@ public class DiabetesReportWeb {
         return "edit-patient";
     }
 
-    @RequestMapping(value = "/update/{id}",method=RequestMethod.PUT)
+    @RequestMapping(value = "/update/{id}", method = {  RequestMethod.POST,RequestMethod.PUT })
     public String updatePatient(@PathVariable("id") Integer id, PatientBean patientBean, BindingResult bindingResult, Model model) {
         if(bindingResult.hasErrors()) {
             model.addAttribute("patient", patientBean);
@@ -115,13 +122,13 @@ public class DiabetesReportWeb {
         }
 
         patientBean.setId(id);
-        diabetesReportController.updatePatient(patientBean);
-        return "redirect:/patient/id=" + patientBean.getId();
+        diabetesReportService.updatePatient(patientBean);
+        return "redirect:/patient/" + patientBean.getId();
     }
 
     @GetMapping("/notes")
     public String getPatientsNotes(Model model) {
-        model.addAttribute("patientsNotes", diabetesReportController.getPatientsNotes());
+        model.addAttribute("patientsNotes", diabetesReportService.getPatientsWithNotes());
         return "patients-note";
     }
 }

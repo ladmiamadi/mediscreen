@@ -1,9 +1,0 @@
-com\ladmia\diabetesReport\util\DiabetesReportUtil.class
-com\ladmia\diabetesReport\web\DiabetesReportWeb.class
-com\ladmia\diabetesReport\bean\PatientBean.class
-com\ladmia\diabetesReport\proxy\PatientProxy.class
-com\ladmia\diabetesReport\service\DiabetesReportService.class
-com\ladmia\diabetesReport\bean\HistoryBean.class
-com\ladmia\diabetesReport\proxy\HistoryProxy.class
-com\ladmia\diabetesReport\controller\DiabetesReportController.class
-com\ladmia\diabetesReport\DiabetesReportApplication.class

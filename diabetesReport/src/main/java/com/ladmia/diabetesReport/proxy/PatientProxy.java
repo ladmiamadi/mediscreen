@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 
-@FeignClient(name = "patient", url = "localhost:8081")
+@FeignClient(name = "patient", url = "patient:8081")
 public interface PatientProxy {
     @GetMapping(value = "/patient/getById")
     PatientBean patientInfoById(@RequestParam("id") Integer id);

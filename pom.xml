@@ -15,8 +15,8 @@
   <version>1.0-SNAPSHOT</version>
   <modules>
     <module>patient</module>
-      <module>history</module>
-      <module>diabetesReport</module>
+    <module>history</module>
+    <module>diabetesReport</module>
     <module>eureka-server</module>
   </modules>
 
@@ -30,6 +30,7 @@
     <spring.boot.maven.plugin.version>2.5.7</spring.boot.maven.plugin.version>
     <spring.boot.dependecies.version>2.5.7</spring.boot.dependecies.version>
     <spring.cloud-version>2020.0.3</spring.cloud-version>
+    <image>ladmia/${project.artifactId}:${project.version}</image>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -74,8 +75,57 @@
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-maven-plugin</artifactId>
           <version>${spring.boot.maven.plugin.version}</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>repackage</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>com.google.cloud.tools</groupId>
+          <artifactId>jib-maven-plugin</artifactId>
+          <version>3.1.4</version>
+          <configuration>
+            <from>
+              <image>eclipse-temurin:17</image>
+              <auth>
+                <username>ladmia</username>
+                <password>b8e91e05-b05a-4c22-98c4-d3f1a0c91e23</password>
+              </auth>
+            </from>
+            <to>
+              <auth>
+                <username>ladmia</username>
+                <password>b8e91e05-b05a-4c22-98c4-d3f1a0c91e23</password>
+              </auth>
+              <tags>
+                <tag>latest</tag>
+              </tags>
+            </to>
+          </configuration>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>build</goal>
+              </goals>
+            </execution>
+          </executions>
         </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.0</version>
+        <configuration>
+          <source>17</source>
+          <target>17</target>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 </project>

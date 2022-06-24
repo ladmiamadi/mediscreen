@@ -1,16 +1,18 @@
 services:
   mysql:
-    image: mysql:latest
-    container_name: mysql
+    image: mysql:8
+    container_name: mysqldb
     environment:
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: patient
       MYSQL_USER: root
       MYSQL_PASSWORD: root
-      MYSQL_ALLOW_EMPTY_PASSWORD: true
     ports:
       - "6033:3306"
     volumes:
       - dbdata:/var/lib/mysql
+    networks:
+      - mysqldb
 
   mongodb:
     image: mongo:latest
@@ -21,11 +23,76 @@ services:
       - "27017:27017"
     volumes:
       - mongo-volume:/data/db
+    networks:
+      - mongodb
   zipkin:
     image: openzipkin/zipkin
     container_name: zipkin
     ports:
       - "9411:9411"
+    networks:
+      - spring
+  eureka-server:
+    image: ladmia/eureka-server:latest
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - spring
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - zipkin
+
+  patient:
+    image: ladmia/patient:latest
+    container_name: patient
+    ports:
+      - "8081:8081"
+    networks:
+      - spring
+      - mysqldb
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - eureka-server
+      - zipkin
+      - mysqldb
+  history:
+    image: ladmia/history:latest
+    container_name: history
+    ports:
+      - "8082:8082"
+    networks:
+      - spring
+      - mongodb
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - eureka-server
+      - zipkin
+      - mongodb
+
+  diabetes-report:
+    image: ladmia/diabetes-report:latest
+    container_name: diabetes-report
+    ports:
+      - "8080:8080"
+    networks:
+      - spring
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - eureka-server
+      - zipkin
+
+networks:
+  spring:
+    driver: bridge
+  mysqldb:
+    driver: bridge
+  mongodb:
+    driver: bridge
 
 volumes:
   dbdata:

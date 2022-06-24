@@ -1,0 +1,31 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: patient
+  datasource:
+    password: root
+    url: jdbc:mysql://mysqldb:3306/patient
+    username: root
+    jpa:
+      hibernate:
+        ddl-auto: create-drop
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.MySQL5Dialect
+          format_sql: true
+      show-sql: true
+  zipkin:
+    base-url: http://zipkin:9411
+
+  mvc:
+    format:
+      date: yyyy-MM-dd
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true

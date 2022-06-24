@@ -1,0 +1,4 @@
+com\ladmia\history\controller\HistoryController.class
+com\ladmia\history\model\History.class
+com\ladmia\history\repository\HistoryRepository.class
+com\ladmia\history\HistoryApplication.class

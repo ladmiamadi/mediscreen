@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@FeignClient(name = "history", url = "localhost:8082")
+@FeignClient(name = "history", url = "history:8082")
 public interface HistoryProxy {
 
     @GetMapping(value = "/patHistory/getPatientHistory")

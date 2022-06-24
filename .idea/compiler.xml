@@ -24,6 +24,7 @@
       <module name="diabetesReport" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
       <module name="history" options="-parameters" />
+      <module name="mediscreen" options="-parameters" />
       <module name="patient" options="-parameters" />
     </option>
   </component>

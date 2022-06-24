@@ -1,4 +1,1 @@
-./patient/target
-./diabetesReport/target
-./history/target
-./eureka-server/target
+*/target/*

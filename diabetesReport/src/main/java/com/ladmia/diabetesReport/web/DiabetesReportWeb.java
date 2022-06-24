@@ -35,6 +35,7 @@ public class DiabetesReportWeb {
         List<PatientBean> patients = diabetesReportController.getPatients();
 
         model.addAttribute("patients", patients);
+        log.info("Getting patients list");
 
         return "patients";
     }
@@ -46,6 +47,7 @@ public class DiabetesReportWeb {
         model.addAttribute("notes", diabetesReportController.getPatientNote(id));
         model.addAttribute("report", diabetesReportController.getPatientReportById(id));
 
+        log.info("Getting patient information id=" + id);
         return "detail";
     }
 
@@ -54,6 +56,7 @@ public class DiabetesReportWeb {
         model.addAttribute("historyBean", historyBean);
         model.addAttribute("patient", diabetesReportController.getPatientDetail(id));
 
+        log.info("Display form");
         return "note";
     }
 
@@ -65,13 +68,16 @@ public class DiabetesReportWeb {
             model.addAttribute("patient", diabetesReportController.getPatientDetail(id));
             model.addAttribute("historyBean", historyBean);
 
+            log.debug("There are errors in the form errors=" + bindingResult.getAllErrors());
             return "note";
         }
 
         historyBean.setPatientId(id);
+        log.info("Adding Note to database");
 
         diabetesReportService.createNewNote(historyBean);
 
+        redirectAttributes.addFlashAttribute("success", "Note successfully created");
         return "redirect:/patient/" + id;
     }
 
@@ -92,16 +98,20 @@ public class DiabetesReportWeb {
             return "patient";
         }
 
+        log.info("Adding patient to database");
         diabetesReportService.createNewPatient(patientBean);
+        redirectAttributes.addFlashAttribute("success", "Patient successfully added");
 
         return "redirect:/list";
     }
 
     @RequestMapping(value = "/patient/delete/{id}", method = { RequestMethod.GET, RequestMethod.DELETE })
-    public String deletePatient(@PathVariable("id") Integer id) {
+    public String deletePatient(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
 
+        log.info("Deleting patient from database");
         diabetesReportService.deletePatient(id);
 
+        redirectAttributes.addFlashAttribute("success", "Patient successfully deleted");
         return "redirect:/list";
     }
 
@@ -114,7 +124,8 @@ public class DiabetesReportWeb {
     }
 
     @RequestMapping(value = "/update/{id}", method = {  RequestMethod.POST,RequestMethod.PUT })
-    public String updatePatient(@PathVariable("id") Integer id, PatientBean patientBean, BindingResult bindingResult, Model model) {
+    public String updatePatient(@PathVariable("id") Integer id, PatientBean patientBean, BindingResult bindingResult,
+                                Model model, RedirectAttributes redirectAttributes) {
         if(bindingResult.hasErrors()) {
             model.addAttribute("patient", patientBean);
 
@@ -123,12 +134,16 @@ public class DiabetesReportWeb {
 
         patientBean.setId(id);
         diabetesReportService.updatePatient(patientBean);
+        redirectAttributes.addFlashAttribute("success", "Patient successfully updated");
         return "redirect:/patient/" + patientBean.getId();
     }
 
     @GetMapping("/notes")
     public String getPatientsNotes(Model model) {
         model.addAttribute("patientsNotes", diabetesReportService.getPatientsWithNotes());
+
+        log.info("Getting notes list");
+
         return "patients-note";
     }
 }

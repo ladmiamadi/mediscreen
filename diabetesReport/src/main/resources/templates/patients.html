@@ -49,6 +49,12 @@
     <div class="text-center p-5 my-3">
         <h2 class="text-danger">Patient list</h2>
     </div>
+
+    <div class="w-50 my-3">
+        <div class="col-5 alert alert-success" role="alert" th:text="${success}" th:if="${success}"></div>
+        <div class="col-5 alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>
+    </div>
+
     <div class="text-center my-5 ml-0 w-25">
         <a th:href="@{/patient/add}"><button class="btn btn-success">New Patient</button></a>
     </div>

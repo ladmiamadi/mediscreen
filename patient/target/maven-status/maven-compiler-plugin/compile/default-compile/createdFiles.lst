@@ -1,7 +1,0 @@
-com\ladmia\patient\exception\NotFoundPatientException.class
-com\ladmia\patient\repository\PatientRepository.class
-com\ladmia\patient\controller\PatientController.class
-com\ladmia\patient\model\Patient$PatientBuilder.class
-com\ladmia\patient\model\Patient.class
-com\ladmia\patient\PatientApplication.class
-com\ladmia\patient\service\PatientService.class

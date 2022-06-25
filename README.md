@@ -25,9 +25,9 @@ Microservice "DiabetesReport" : docker pull ladmia/diabetes-history:latest
 
 Microservice "eureka-servert" : docker pull ladmia/eureka-server:latest
 
-Link Docker Hub :
+Links to Docker Hub :
 
-[eureka-server](https://hub.docker.com/r/ladmia/eureka-server)
-[patient](https://hub.docker.com/r/ladmia/patient)
-[history](https://hub.docker.com/r/ladmia/history)
+[eureka-server](https://hub.docker.com/r/ladmia/eureka-server) <br>
+[patient](https://hub.docker.com/r/ladmia/patient)<br>
+[history](https://hub.docker.com/r/ladmia/history)<br>
 [report](https://hub.docker.com/r/ladmia/diabetes-report)

@@ -74,6 +74,10 @@ public class DiabetesReportService {
         return historyProxy.addNewNote(historyBean.getPatientId(), historyBean.getNote());
     }
 
+    public HistoryBean getNote(String noteId) {
+        return historyProxy.getNote(noteId);
+    }
+
     public PatientBean createNewPatient(PatientBean patientBean) {
         return patientProxy.addPatient(patientBean.getFirstName(), patientBean.getLastName(),
                                         patientBean.getBirthDate(), patientBean.getSex(), patientBean.getAddress(),
@@ -90,5 +94,9 @@ public class DiabetesReportService {
                                     patientBean.getPhoneNumber());
 
         return patientBean;
+    }
+
+    public HistoryBean updateNote(HistoryBean historyBean) {
+        return historyProxy.updateNote(historyBean.getId(), historyBean.getNote());
     }
 }

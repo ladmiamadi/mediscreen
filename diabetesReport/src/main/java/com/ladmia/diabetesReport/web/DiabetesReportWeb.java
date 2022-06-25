@@ -138,6 +138,39 @@ public class DiabetesReportWeb {
         return "redirect:/patient/" + patientBean.getId();
     }
 
+    @GetMapping("/note/update/{id}")
+    public String updateNoteForm(@PathVariable("id") String id, Model model) {
+       HistoryBean historyBean = diabetesReportService.getNote(id);
+       PatientBean patientBean = diabetesReportService.getPatientInformationById(historyBean.getPatientId());
+
+       model.addAttribute("history", historyBean);
+       model.addAttribute("patient", patientBean);
+
+        return "edit-note";
+    }
+
+    @RequestMapping(value = "note/update/{id}", method = {  RequestMethod.POST,RequestMethod.PUT })
+    public String updateNote(@PathVariable("id") String id, HistoryBean historyBean, BindingResult bindingResult,
+                                Model model, RedirectAttributes redirectAttributes) {
+
+        historyBean.setId(id);
+        PatientBean patientBean = diabetesReportService.getPatientInformationById(historyBean.getPatientId());
+
+        if(bindingResult.hasErrors()) {
+
+            model.addAttribute("history", historyBean);
+            model.addAttribute("patient", patientBean);
+
+            return "edit-note";
+        }
+
+
+        diabetesReportService.updateNote(historyBean);
+        redirectAttributes.addFlashAttribute("success", "Note successfully updated");
+
+        return "redirect:/patient/" + historyBean.getPatientId();
+    }
+
     @GetMapping("/notes")
     public String getPatientsNotes(Model model) {
         model.addAttribute("patientsNotes", diabetesReportService.getPatientsWithNotes());

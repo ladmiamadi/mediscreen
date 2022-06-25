@@ -100,6 +100,7 @@
                                 </div>
                                 <span class="badge bg-primary bg-opacity-50 rounded-pill"
                                       th:text="${#dates.format(note.createdAt,'dd-MM-yyyy')}"></span>
+                                <span class="mx-3 my-1"><a th:href="@{'/note/update/'+ ${note.id}}"><button type="button" class="btn btn-primary">Edit</button></a></span>
                             </li>
                         </ol>
                     </div>

@@ -22,6 +22,11 @@ public class HistoryController {
         return historyRepository.findByPatientId(id);
     }
 
+    @GetMapping("/getNote")
+    public History getNote(@RequestParam("noteId") String noteId) {
+        return historyRepository.findById(noteId).get();
+    }
+
     @PostMapping("/add")
     public History registerNote(@RequestParam(value="patId") Integer patientId,
                                 @RequestParam(value="note") String note) {
@@ -33,8 +38,15 @@ public class HistoryController {
     }
 
     @PutMapping("/update")
-    public History updatePatientHistory() {
-        return null;
+    public History updatePatientHistory(@RequestParam(value = "noteId") String noteId,
+                                        @RequestParam(value = "note") String note) {
+
+        History history = historyRepository.findById(noteId).get();
+
+        history.setNote(note);
+
+        return historyRepository.save(history);
+
     }
 
     @DeleteMapping("/{id}")

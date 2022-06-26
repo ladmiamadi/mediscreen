@@ -5,11 +5,7 @@ import com.ladmia.diabetesReport.bean.PatientBean;
 import com.ladmia.diabetesReport.proxy.HistoryProxy;
 import com.ladmia.diabetesReport.proxy.PatientProxy;
 import com.ladmia.diabetesReport.util.DiabetesReportUtil;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

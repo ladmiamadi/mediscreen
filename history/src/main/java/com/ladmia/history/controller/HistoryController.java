@@ -46,7 +46,6 @@ public class HistoryController {
         history.setNote(note);
 
         return historyRepository.save(history);
-
     }
 
     @DeleteMapping("/{id}")

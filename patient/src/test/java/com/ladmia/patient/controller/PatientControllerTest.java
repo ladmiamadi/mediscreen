@@ -4,123 +4,97 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
-import org.junit.jupiter.api.Disabled;
+import com.ladmia.patient.model.Patient;
+import com.ladmia.patient.service.PatientService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.hamcrest.CoreMatchers.is;
+
+@SpringBootTest
+@AutoConfigureMockMvc
 class PatientControllerTest {
-    @Test
-    @Disabled("TODO: Complete this test")
-    void testGetPatients() {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.NullPointerException: Cannot invoke "com.ladmia.patient.service.PatientService.getAllPatients()" because "this.patientService" is null
-        //       at com.ladmia.patient.controller.PatientController.getPatients(PatientController.java:21)
-        //   In order to prevent getPatients()
-        //   from throwing NullPointerException, add constructors or factory
-        //   methods that make it easier to construct fully initialized objects used in
-        //   getPatients().
-        //   See https://diff.blue/R013 to resolve this issue.
+    @Autowired
+    public MockMvc mockMvc;
 
-        (new PatientController()).getPatients();
-    }
+    @Autowired
+    PatientController patientController;
 
-    @Test
-    @Disabled("TODO: Complete this test")
-    void testRegisterPatient() {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.NullPointerException: Cannot invoke "com.ladmia.patient.service.PatientService.registerPatient(String, String, java.util.Date, String, String, String)" because "this.patientService" is null
-        //       at com.ladmia.patient.controller.PatientController.registerPatient(PatientController.java:34)
-        //   In order to prevent registerPatient(String, String, Date, String, String, String)
-        //   from throwing NullPointerException, add constructors or factory
-        //   methods that make it easier to construct fully initialized objects used in
-        //   registerPatient(String, String, Date, String, String, String).
-        //   See https://diff.blue/R013 to resolve this issue.
+    @MockBean
+    PatientService patientService;
 
-        PatientController patientController = new PatientController();
+    private Patient patient;
+
+    @BeforeEach
+    void beforeEach() {
+        patient = new Patient();
+        patient.setId(1);
+        patient.setAddress("42 Main St");
         LocalDateTime atStartOfDayResult = LocalDate.of(1970, 1, 1).atStartOfDay();
-        patientController.registerPatient("Family", "Given",
-                Date.from(atStartOfDayResult.atZone(ZoneId.of("UTC")).toInstant()), "Sex", "42 Main St", "4105551212");
+        patient.setBirthDate(Date.from(atStartOfDayResult.atZone(ZoneId.of("UTC")).toInstant()));
+        patient.setFirstName("Jane");
+        patient.setLastName("Doe");
+        patient.setPhoneNumber("4105551212");
+        patient.setSex("Sex");
     }
 
     @Test
-    @Disabled("TODO: Complete this test")
-    void testGetPatientById() {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.NullPointerException: Cannot invoke "com.ladmia.patient.service.PatientService.findPatientById(java.lang.Integer)" because "this.patientService" is null
-        //       at com.ladmia.patient.controller.PatientController.getPatientById(PatientController.java:39)
-        //   In order to prevent getPatientById(Integer)
-        //   from throwing NullPointerException, add constructors or factory
-        //   methods that make it easier to construct fully initialized objects used in
-        //   getPatientById(Integer).
-        //   See https://diff.blue/R013 to resolve this issue.
+    void testGetPatients() throws Exception {
+        Mockito.when(patientService.getAllPatients()).thenReturn(List.of(patient));
 
-        (new PatientController()).getPatientById(1);
+        mockMvc.perform(get("/patient/list"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].firstName", is("Jane")));
     }
 
     @Test
-    @Disabled("TODO: Complete this test")
-    void testGetPatientByFamilyName() {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.NullPointerException: Cannot invoke "com.ladmia.patient.service.PatientService.findPatientByFamilyName(String)" because "this.patientService" is null
-        //       at com.ladmia.patient.controller.PatientController.getPatientByFamilyName(PatientController.java:44)
-        //   In order to prevent getPatientByFamilyName(String)
-        //   from throwing NullPointerException, add constructors or factory
-        //   methods that make it easier to construct fully initialized objects used in
-        //   getPatientByFamilyName(String).
-        //   See https://diff.blue/R013 to resolve this issue.
-
-        (new PatientController()).getPatientByFamilyName("Family Name");
+    void testRegisterPatient() throws Exception {
+        Mockito.when(patientService.registerPatient("Test", "TestNone", new Date(), "F", "", "")).thenReturn(patient);
+        mockMvc.perform(post("/patient/add?family=TestNone&given=Test&dob=1966-12-31&sex=F&address=1 Brookside St&phone=100-222-3333"))
+                .andExpect(status().isOk());
     }
 
     @Test
-    @Disabled("TODO: Complete this test")
-    void testPatientUpdate() {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.NullPointerException: Cannot invoke "com.ladmia.patient.service.PatientService.updatePatient(com.ladmia.patient.model.Patient)" because "this.patientService" is null
-        //       at com.ladmia.patient.controller.PatientController.patientUpdate(PatientController.java:56)
-        //   In order to prevent patientUpdate(Integer, String, String, Date, String, String, String)
-        //   from throwing NullPointerException, add constructors or factory
-        //   methods that make it easier to construct fully initialized objects used in
-        //   patientUpdate(Integer, String, String, Date, String, String, String).
-        //   See https://diff.blue/R013 to resolve this issue.
+    void testGetPatientById() throws Exception {
+        patient.setId(1);
+        Mockito.when(patientService.findPatientById(1)).thenReturn(Optional.ofNullable(patient));
 
-        PatientController patientController = new PatientController();
-        LocalDateTime atStartOfDayResult = LocalDate.of(1970, 1, 1).atStartOfDay();
-        patientController.patientUpdate(1, "Given", "Family",
-                Date.from(atStartOfDayResult.atZone(ZoneId.of("UTC")).toInstant()), "Sex", "42 Main St", "4105551212");
+        mockMvc.perform(get("/patient/getById?id=1"))
+                .andExpect(status().isOk());
     }
 
     @Test
-    @Disabled("TODO: Complete this test")
-    void testDeletePatient() {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.NullPointerException: Cannot invoke "com.ladmia.patient.service.PatientService.deletePatient(java.lang.Integer)" because "this.patientService" is null
-        //       at com.ladmia.patient.controller.PatientController.deletePatient(PatientController.java:64)
-        //   In order to prevent deletePatient(Integer)
-        //   from throwing NullPointerException, add constructors or factory
-        //   methods that make it easier to construct fully initialized objects used in
-        //   deletePatient(Integer).
-        //   See https://diff.blue/R013 to resolve this issue.
+    void testGetPatientByFamilyName() throws Exception {
+        Mockito.when(patientService.findPatientByFamilyName("Doe")).thenReturn(Optional.ofNullable(patient));
 
-        (new PatientController()).deletePatient(1);
+        mockMvc.perform(get("/patient/getByFamilyName?familyName=Doe"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void testPatientUpdate() throws Exception {
+        mockMvc.perform(put("/patient/update?id=1&family=TestNone&given=Test&dob=1966-12-31&sex=F&address=1 Brookside St&phone=100-222-3333"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void testDeletePatient() throws Exception {
+        Mockito.when(patientService.registerPatient("Test", "TestNone", new Date(), "F", "", "")).thenReturn(patient);
+
+        mockMvc.perform(delete("/patient/delete/1"))
+                .andExpect(status().isOk());
     }
 }
 
